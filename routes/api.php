@@ -24,6 +24,7 @@ Route::group(['prefix'  =>  'v1','middleware'   =>  'auth.basic'],function(){
             Route::get('/{id}'              , ['as'   => 'stores.show'       ,'uses'    =>  'StoreController@show']);
             Route::post('/'                 , ['as'   => 'stores.store'      ,'uses'    =>  'StoreController@store']);
             Route::put('/{id}'              , ['as'   => 'stores.update'     ,'uses'    =>  'StoreController@update']);
+            Route::delete('/{id}'           , ['as'   => 'stores.delete'     ,'uses'    =>  'StoreController@delete']);
             Route::get('/{id}/articles'     , ['as'   => 'stores.show'       ,'uses'    =>  'StoreController@articlesStore']);
         });
         Route::group(['prefix'  =>  'articles'],function(){
@@ -31,6 +32,7 @@ Route::group(['prefix'  =>  'v1','middleware'   =>  'auth.basic'],function(){
             Route::get('/{id}'              , ['as'   => 'article.show'       ,'uses'    =>  'ArticleController@show']);
             Route::post('/'                 , ['as'   => 'article.store'      ,'uses'    =>  'ArticleController@store']);
             Route::put('/{id}'              , ['as'   => 'article.update'     ,'uses'    =>  'ArticleController@update']);
+            Route::delete('/{id}'           , ['as'   => 'article.delete'     ,'uses'    =>  'ArticleController@delete']);
         });
     });
 });

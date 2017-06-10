@@ -110,4 +110,23 @@ class ArticleController extends Controller
             return $this->sendErrorResponse(HTTP_CODE::HTTP_INTERNAL_SERVER_ERROR,'INTERNAL SERVER ERROR');
         }
     }
+
+    public function delete($id)
+    {
+        try
+        {
+            if(!is_numeric($id)) return $this->sendErrorResponse(HTTP_CODE::HTTP_BAD_REQUEST,'BAD REQUEST');
+            $article        =   Article::findOrFail($id);
+            $article->delete();
+            $response       =   array(
+                'article'           => $article,
+                'total_elements'    => $article->count()
+            );
+            return $this->sendSuccessResponse($response);
+        }
+        catch (\Exception $exception)
+        {
+            return $this->sendErrorResponse(HTTP_CODE::HTTP_NOT_FOUND,'RECORD NOT FOUND');
+        }
+    }
 }

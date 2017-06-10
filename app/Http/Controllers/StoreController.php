@@ -108,6 +108,25 @@ class StoreController extends Controller
         }
     }
 
+    public function delete($id)
+    {
+        try
+        {
+            if(!is_numeric($id)) return $this->sendErrorResponse(HTTP_CODE::HTTP_BAD_REQUEST,'BAD REQUEST');
+            $store          =   Store::findOrFail($id);
+            $store->delete();
+            $response       =   array(
+                'store'             => $store,
+                'total_elements'    => $store->count()
+            );
+            return $this->sendSuccessResponse($response);
+        }
+        catch (\Exception $exception)
+        {
+            return $this->sendErrorResponse(HTTP_CODE::HTTP_NOT_FOUND,'RECORD NOT FOUND');
+        }
+    }
+
     public function articlesStore($id)
     {
         try
