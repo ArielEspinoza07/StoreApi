@@ -17,7 +17,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::group(['prefix'  =>  'v1','middleware'   =>  'auth.basic'],function(){
+Route::group(['prefix'  =>  'v1','middleware'   =>  ['auth.basic','cors']],function(){
     Route::group(['prefix'  =>  'services'],function(){
         Route::group(['prefix'  =>  'stores'],function(){
             Route::get('/'                  , ['as'   => 'stores.index'      ,'uses'    =>  'StoreController@index']);
