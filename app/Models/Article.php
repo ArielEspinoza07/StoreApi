@@ -34,7 +34,6 @@ class Article extends Model
 
     protected $hidden   =   array(
         'deleted_at',
-        'store_id'
     );
 
     public function store()
