@@ -29,7 +29,7 @@ class ArticleController extends Controller
         try
         {
             $requestParams  =   $request->except($this->token);
-            $articles       =   Article::where($requestParams)->get();
+            $articles       =   Article::where($requestParams)->with(['store'])->get();
             $response       =   array(
                 'articles'          => $articles,
                 'total_elements'    => $articles->count()

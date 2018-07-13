@@ -17,7 +17,10 @@ class ResponseUtil
      */
     public static function makeSuccessResponse($data)
     {
-        return array_merge($data,array('success'=>(boolean)true));
+        return [
+            'success'=>(boolean)true,
+            'data'=>$data
+        ];
     }
 
     /**
@@ -27,6 +30,10 @@ class ResponseUtil
      */
     public static function makeErrorResponse($code, $message)
     {
-        return array('success'=>(boolean)false,'error_code' => (int)$code,'error_msg' => (string)$message);
+        return [
+            'success'=>(boolean)false,
+            'error_code' => (int)$code,
+            'error_msg' => (string)$message
+        ];
     }
 }
