@@ -3,9 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Store;
-use App\Models\StoreLog;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use App\Http\Resources\Store as StoreResource;
 use Symfony\Component\HttpFoundation\Response as HTTP_CODE;
 
 class StoreController extends Controller
@@ -28,7 +27,7 @@ class StoreController extends Controller
             $requestParams  =   $request->except($this->token);
             $stores         =   Store::where($requestParams)->get();
             $response       =   array(
-                'stores'            => $stores,
+                'stores'            => StoreResource::collection($stores),
                 'total_elements'    => $stores->count()
             );
             return $this->sendSuccessResponse($response);
@@ -46,8 +45,8 @@ class StoreController extends Controller
             if(!is_numeric($id)) return $this->sendErrorResponse(HTTP_CODE::HTTP_BAD_REQUEST,'BAD REQUEST');
             $store          =   Store::findOrFail($id);
             $response       =   array(
-                'store'             => $store,
-                'total_elements'    => $store->count()
+                'store'             => new StoreResource($store),
+                'total_elements'    => count($store)
             );
             return $this->sendSuccessResponse($response);
         }
@@ -66,8 +65,8 @@ class StoreController extends Controller
             if($this->verifyFieldsNotEmptyRequest($this->fields,$requestParams)) return $this->sendErrorResponse(HTTP_CODE::HTTP_BAD_REQUEST,'BAD REQUEST');
             $store          =   Store::firstOrCreate($requestParams);
             $response       =   array(
-                'store'             => $store,
-                'total_elements'    => $store->count()
+                'store'             => new StoreResource($store),
+                'total_elements'    => count($store)
             );
 
             return $this->sendSuccessResponse($response);
@@ -97,8 +96,8 @@ class StoreController extends Controller
             $store->fill($requestParams);
             $store->save();
             $response       =   array(
-                'store'             => $store,
-                'total_elements'    => $store->count()
+                'store'             => new StoreResource($store),
+                'total_elements'    => count($store)
             );
             return $this->sendSuccessResponse($response);
         }
@@ -116,8 +115,8 @@ class StoreController extends Controller
             $store          =   Store::findOrFail($id);
             $store->delete();
             $response       =   array(
-                'store'             => $store,
-                'total_elements'    => $store->count()
+                'store'             => new StoreResource($store),
+                'total_elements'    => count($store)
             );
             return $this->sendSuccessResponse($response);
         }
@@ -135,8 +134,8 @@ class StoreController extends Controller
             $store          =   Store::findOrFail($id);
             $store->articles;
             $response       =   array(
-                'store'             => $store,
-                'total_elements'    => $store->count()
+                'store'             => new StoreResource($store),
+                'total_elements'    => count($store)
             );
             return $this->sendSuccessResponse($response);
         }

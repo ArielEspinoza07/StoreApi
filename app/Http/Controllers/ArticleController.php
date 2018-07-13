@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Article;
 use Illuminate\Http\Request;
+use App\Http\Resources\Article as ArticleResource;
 use Symfony\Component\HttpFoundation\Response as HTTP_CODE;
 
 class ArticleController extends Controller
@@ -31,7 +32,7 @@ class ArticleController extends Controller
             $requestParams  =   $request->except($this->token);
             $articles       =   Article::where($requestParams)->with(['store'])->get();
             $response       =   array(
-                'articles'          => $articles,
+                'articles'          => ArticleResource::collection($articles),
                 'total_elements'    => $articles->count()
             );
             return $this->sendSuccessResponse($response);
@@ -49,8 +50,8 @@ class ArticleController extends Controller
             if(!is_numeric($id)) return $this->sendErrorResponse(HTTP_CODE::HTTP_BAD_REQUEST,'BAD REQUEST');
             $article        =   Article::findOrFail($id);
             $response       =   array(
-                'article'           => $article,
-                'total_elements'    => $article->count()
+                'article'           => new ArticleResource($article),
+                'total_elements'    => count($article)
             );
             return $this->sendSuccessResponse($response);
         }
@@ -69,8 +70,8 @@ class ArticleController extends Controller
             if($this->verifyFieldsNotEmptyRequest($this->fields,$requestParams)) return $this->sendErrorResponse(HTTP_CODE::HTTP_BAD_REQUEST,'BAD REQUEST');
             $article        =   Article::firstOrCreate($requestParams);
             $response       =   array(
-                'article'           => $article,
-                'total_elements'    => $article->count()
+                'article'           => new ArticleResource($article),
+                'total_elements'    => count($article)
             );
 
             return $this->sendSuccessResponse($response);
@@ -100,8 +101,8 @@ class ArticleController extends Controller
             $article->fill($requestParams);
             $article->save();
             $response       =   array(
-                'article'           => $article,
-                'total_elements'    => $article->count()
+                'article'           => new ArticleResource($article),
+                'total_elements'    => count($article)
             );
             return $this->sendSuccessResponse($response);
         }
@@ -119,8 +120,8 @@ class ArticleController extends Controller
             $article        =   Article::findOrFail($id);
             $article->delete();
             $response       =   array(
-                'article'           => $article,
-                'total_elements'    => $article->count()
+                'article'           => new ArticleResource($article),
+                'total_elements'    => count($article)
             );
             return $this->sendSuccessResponse($response);
         }
