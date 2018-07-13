@@ -8,32 +8,35 @@
 
 namespace App\Util;
 
-
 class ResponseUtil
 {
+
     /**
      * @param $data
+     *
      * @return array
      */
     public static function makeSuccessResponse($data)
     {
         return [
-            'success'=>(boolean)true,
-            'data'=>$data
+            'success' => (boolean)true,
+            'data'    => $data
         ];
     }
+
 
     /**
      * @param $code
      * @param $message
+     *
      * @return array
      */
     public static function makeErrorResponse($code, $message)
     {
         return [
-            'success'=>(boolean)false,
+            'success'    => (boolean)false,
             'error_code' => (int)$code,
-            'error_msg' => (string)$message
+            'error_msg'  => (string)$message
         ];
     }
 }

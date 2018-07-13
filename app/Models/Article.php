@@ -40,4 +40,12 @@ class Article extends Model
     {
         return $this->belongsTo('App\Models\Store');
     }
+
+    public function scopeName($query,$name){
+        if($name){
+            return $query->where('name','like',"%$name%");
+        }
+
+        return $query;
+    }
 }

@@ -25,7 +25,6 @@ Route::group(['prefix'  =>  'v1','middleware'   =>  ['auth.basic','cors']],funct
             Route::post('/'                 , ['as'   => 'stores.store'      ,'uses'    =>  'StoreController@store']);
             Route::put('/{id}'              , ['as'   => 'stores.update'     ,'uses'    =>  'StoreController@update']);
             Route::delete('/{id}'           , ['as'   => 'stores.delete'     ,'uses'    =>  'StoreController@delete']);
-            Route::get('/{id}/articles'     , ['as'   => 'stores.show'       ,'uses'    =>  'StoreController@articlesStore']);
         });
         Route::group(['prefix'  =>  'articles'],function(){
             Route::get('/'                  , ['as'   => 'article.index'      ,'uses'    =>  'ArticleController@index']);

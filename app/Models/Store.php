@@ -32,4 +32,12 @@ class Store extends Model
     {
         return $this->hasMany('App\Models\Article');
     }
+
+    public function scopeName($query,$name){
+        if($name){
+            return $query->where('name','like',"%$name%");
+        }
+
+        return $query;
+    }
 }
