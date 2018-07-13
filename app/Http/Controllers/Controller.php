@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Response;
 use App\Util\ResponseUtil;
 use App\Util\Traits\RequestUtil;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -24,7 +23,7 @@ class Controller extends BaseController
     protected function sendSuccessResponse($data)
     {
         $this->utf8_encode_deep($data);
-        return Response::json(ResponseUtil::makeSuccessResponse($data),200);
+        return response()->json(ResponseUtil::makeSuccessResponse($data),200);
     }
 
     /**
@@ -34,7 +33,7 @@ class Controller extends BaseController
      */
     protected function sendErrorResponse($code, $message)
     {
-        return Response::json(ResponseUtil::makeErrorResponse($code,$message),$code);
+        return response()->json(ResponseUtil::makeErrorResponse($code,$message),$code);
     }
 
     /**
