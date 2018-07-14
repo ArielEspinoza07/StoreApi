@@ -34,12 +34,16 @@ class ArticleController extends Controller
     {
         try {
             $requestParams = collect($request->except($this->token));
-            Log::info('Params send to articles ' . $requestParams->toJson());
+            Log::info('Params send to articles '.$requestParams->toJson());
             $requestParams->forget('page');
             $limit         = $requestParams->pull('limit');
-            $articlesQuery = Article::name($requestParams->pull('name'))->where($requestParams->toArray());
+            $order       = $requestParams->pull('order','created_at');
+            $by          = $requestParams->pull('by','desc');
+            $articlesQuery = Article::name($requestParams->pull('name'))
+                                    ->where($requestParams->toArray())
+                                    ->orderBy($order, $by);
             if ($limit) {
-                $articles = $articlesQuery->paginate(2);
+                $articles = $articlesQuery->paginate($limit);
             } else {
                 $articles = $articlesQuery->get();
             }

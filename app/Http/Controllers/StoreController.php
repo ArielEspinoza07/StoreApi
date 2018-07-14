@@ -30,11 +30,16 @@ class StoreController extends Controller
     {
         try {
             $requestParams = collect($request->except($this->token));
+            Log::info('Params send to store '.$requestParams->toJson());
             $requestParams->forget('page');
             $limit       = $requestParams->pull('limit');
-            $storesQuery = Store::name($requestParams->pull('name'))->where($requestParams->toArray());
+            $order       = $requestParams->pull('order','created_at');
+            $by          = $requestParams->pull('by','desc');
+            $storesQuery = Store::name($requestParams->pull('name'))
+                                ->where($requestParams->toArray())
+                                ->orderBy($order, $by);
             if ($limit) {
-                $stores = $storesQuery->paginate(2);
+                $stores = $storesQuery->paginate($limit);
             } else {
                 $stores = $storesQuery->get();
             }

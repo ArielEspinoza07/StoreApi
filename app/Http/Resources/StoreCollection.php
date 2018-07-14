@@ -22,11 +22,15 @@ class StoreCollection extends ResourceCollection
         ];
         if (method_exists($this->resource, 'total')) {
             $resource['pagination'] = [
-                'total'        => $this->total(),
-                'count'        => $this->count(),
-                'per_page'     => $this->perPage(),
-                'current_page' => $this->currentPage(),
-                'total_pages'  => $this->lastPage(),
+                'total'         => $this->total(),
+                'count'         => $this->count(),
+                'per_page'      => $this->perPage(),
+                'previous_page' => ($this->currentPage() - 1),
+                'current_page'  => $this->currentPage(),
+                'next_page'     => ($this->currentPage() + 1),
+                'first_page'    => 1,
+                'last_page'     => $this->lastPage(),
+                'total_pages'   => $this->lastPage(),
             ];
         }
 
