@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Util\TransformUtil;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class Store extends JsonResource
@@ -21,8 +22,8 @@ class Store extends JsonResource
             'name'       => $this->name,
             'address'    => $this->address,
             'articles'   => $this->articles,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
+            'created_at' => TransformUtil::giveFormatDate($this->created_at,env('DATE_FORMAT_US')),
+            'updated_at' => TransformUtil::giveFormatDate($this->updated_at,env('DATE_FORMAT_US')),
         ];
     }
 }

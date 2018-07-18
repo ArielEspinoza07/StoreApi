@@ -14,16 +14,14 @@ class Controller extends BaseController
     use AuthorizesRequests;
     use DispatchesJobs;
     use ValidatesRequests;
-    use RequestUtil;
 
     /**
      * @param $data
      * @return mixed
      */
-    protected function sendSuccessResponse($data)
+    protected function sendSuccessResponse($data,$message)
     {
-        $this->utf8_encode_deep($data);
-        return response()->json(ResponseUtil::makeSuccessResponse($data),200);
+        return response()->json(ResponseUtil::makeSuccessResponse($data,$message),200);
     }
 
     /**
@@ -36,29 +34,4 @@ class Controller extends BaseController
         return response()->json(ResponseUtil::makeErrorResponse($code,$message),$code);
     }
 
-    /**
-     * @param $input
-     */
-    protected function utf8_encode_deep(&$input)
-    {
-        if (is_string($input)) {
-            $input = utf8_encode($input);
-        } else {
-            if (is_array($input)) {
-                foreach ($input as &$value) {
-                    self::utf8_encode_deep($value);
-                }
-
-                unset($value);
-            } else {
-                if (is_object($input)) {
-                    $vars = array_keys(get_object_vars($input));
-
-                    foreach ($vars as $var) {
-                        self::utf8_encode_deep($input->$var);
-                    }
-                }
-            }
-        }
-    }
 }

@@ -1,17 +1,23 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: Ariel-PC
- * Date: 8/6/2017
- * Time: 11:12 PM
+ * User: aespinoza
+ * Date: 18/07/18
+ * Time: 02:19 PM
  */
 
-namespace App\Util\Traits;
+namespace App\Util;
 
-
-trait RequestUtil
+class RequestUtil
 {
-    protected function verifyFieldsRequest(array $fields, array $request)
+
+    /**
+     * @param array $fields
+     * @param array $request
+     *
+     * @return bool
+     */
+    public static function verifyFieldsRequest(array $fields, array $request)
     {
         $exists =   true;
         foreach ($fields as $field)
@@ -26,7 +32,14 @@ trait RequestUtil
         return $exists;
     }
 
-    protected function verifyFieldsNotEmptyRequest(array $fields, array $request)
+
+    /**
+     * @param array $fields
+     * @param array $request
+     *
+     * @return bool
+     */
+    public static function verifyFieldsNotEmptyRequest(array $fields, array $request)
     {
         $empty  =   false;
         foreach ($fields as $field)

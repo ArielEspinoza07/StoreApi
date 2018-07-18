@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Store;
+use App\Util\RequestUtil;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use App\Http\Resources\Store as StoreResource;
@@ -45,7 +46,7 @@ class StoreController extends Controller
             }
             $response = new StoreCollectionResource($stores);
 
-            return $this->sendSuccessResponse($response);
+            return $this->sendSuccessResponse($response,'');
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
 
@@ -66,7 +67,7 @@ class StoreController extends Controller
                 'total_elements' => count($store)
             ];
 
-            return $this->sendSuccessResponse($response);
+            return $this->sendSuccessResponse($response,'');
         } catch (\Exception $exception) {
             return $this->sendErrorResponse(HTTP_CODE::HTTP_NOT_FOUND, 'RECORD NOT FOUND');
         }
@@ -77,10 +78,10 @@ class StoreController extends Controller
     {
         try {
             $requestParams = $request->except($this->token);
-            if ( ! $this->verifyFieldsRequest($this->fields, $requestParams)) {
+            if ( ! RequestUtil::verifyFieldsRequest($this->fields, $requestParams)) {
                 return $this->sendErrorResponse(HTTP_CODE::HTTP_BAD_REQUEST, 'BAD REQUEST');
             }
-            if ($this->verifyFieldsNotEmptyRequest($this->fields, $requestParams)) {
+            if (RequestUtil::verifyFieldsNotEmptyRequest($this->fields, $requestParams)) {
                 return $this->sendErrorResponse(HTTP_CODE::HTTP_BAD_REQUEST, 'BAD REQUEST');
             }
             $store    = Store::firstOrCreate($requestParams);
@@ -89,7 +90,7 @@ class StoreController extends Controller
                 'total_elements' => count($store)
             ];
 
-            return $this->sendSuccessResponse($response);
+            return $this->sendSuccessResponse($response,'');
         } catch (\Exception $exception) {
             return $this->sendErrorResponse(HTTP_CODE::HTTP_INTERNAL_SERVER_ERROR, 'INTERNAL SERVER ERROR');
         }
@@ -108,10 +109,10 @@ class StoreController extends Controller
                 return $this->sendErrorResponse(HTTP_CODE::HTTP_NOT_FOUND, 'RECORD NOT FOUND');
             }
             $requestParams = $request->except($this->token);
-            if ( ! $this->verifyFieldsRequest($this->fields, $requestParams)) {
+            if ( ! RequestUtil::verifyFieldsRequest($this->fields, $requestParams)) {
                 return $this->sendErrorResponse(HTTP_CODE::HTTP_BAD_REQUEST, 'BAD REQUEST');
             }
-            if ($this->verifyFieldsNotEmptyRequest($this->fields, $requestParams)) {
+            if (RequestUtil::verifyFieldsNotEmptyRequest($this->fields, $requestParams)) {
                 return $this->sendErrorResponse(HTTP_CODE::HTTP_BAD_REQUEST, 'BAD REQUEST');
             }
             $store->fill($requestParams);
@@ -121,7 +122,7 @@ class StoreController extends Controller
                 'total_elements' => count($store)
             ];
 
-            return $this->sendSuccessResponse($response);
+            return $this->sendSuccessResponse($response,'');
         } catch (\Exception $exception) {
             return $this->sendErrorResponse(HTTP_CODE::HTTP_INTERNAL_SERVER_ERROR, 'INTERNAL SERVER ERROR');
         }
@@ -141,7 +142,7 @@ class StoreController extends Controller
                 'total_elements' => count($store)
             ];
 
-            return $this->sendSuccessResponse($response);
+            return $this->sendSuccessResponse($response,'');
         } catch (\Exception $exception) {
             return $this->sendErrorResponse(HTTP_CODE::HTTP_NOT_FOUND, 'RECORD NOT FOUND');
         }
